@@ -11,8 +11,7 @@ fn main() {
 
     let result = genetic
         .into_iter()
-        .skip_while(|best| *best != target)
-        .next()
+        .find(|best| *best == target)
         .unwrap();
 
     println!("{:?}", result);

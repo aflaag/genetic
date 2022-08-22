@@ -18,7 +18,7 @@ where
 
 impl<M, R> GeneticIter<M, R>
 where
-    M: Member<Rng = R> + std::fmt::Debug,
+    M: Member<Rng = R>,
     R: Rng + ?Sized + Clone,
 {
     pub fn new(target: M, size: usize, mutation_rate: f32, mut rng: R) -> Self {
@@ -53,7 +53,7 @@ where
 
 impl<M, R> Iterator for GeneticIter<M, R>
 where
-    M: Member<Rng = R> + std::fmt::Debug,
+    M: Member<Rng = R>,
     R: Rng + ?Sized + Clone,
 {
     type Item = M;

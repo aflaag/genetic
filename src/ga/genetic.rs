@@ -35,7 +35,7 @@ where
 
 impl<M, R> IntoIterator for Genetic<M, R>
 where
-    M: Member<Rng = R> + std::fmt::Debug,
+    M: Member<Rng = R>,
     R: Rng + ?Sized + Clone,
 {
     type Item = M;

@@ -5,7 +5,7 @@ use rand::{rngs::ThreadRng, Rng};
 pub trait Member: Clone + PartialEq {
     type MemberGene: Gene;
 
-    type FitnessOutput: Ord + std::fmt::Display + std::fmt::Debug;
+    type FitnessOutput: Ord;
 
     type Rng: Rng + ?Sized + Clone;
 
@@ -39,7 +39,7 @@ impl<const S: usize> Member for [u8; S] {
         self
             .iter()
             .zip(target.iter())
-            .map(|(self_gene, target_gene)| (*self_gene as isize - *target_gene as isize).abs() as usize)
+            .map(|(self_gene, target_gene)| (*self_gene as isize - *target_gene as isize).unsigned_abs())
             .sum()
     }
 
