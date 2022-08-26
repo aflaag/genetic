@@ -24,7 +24,7 @@ where
     pub fn new(target: M, size: usize, mutation_rate: f32, mut rng: R) -> Self {
         let mut population: Vec<M> = (0..size).map(|_| M::from_random(&mut rng)).collect();
 
-        population.sort_by_key(|member| member.fitness(target.clone()));
+        population.sort_by_cached_key(|member| member.fitness(target.clone()));
 
         Self {
             target,
