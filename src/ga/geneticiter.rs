@@ -24,7 +24,7 @@ where
     pub fn new(target: M, size: usize, mutation_rate: f32, mut rng: R) -> Self {
         let mut population: Vec<M> = (0..size).map(|_| M::from_random(&mut rng)).collect();
 
-        population.sort_by_cached_key(|member| member.fitness(target.clone()));
+        population.sort_by_cached_key(|member| member.fitness(&target));
 
         Self {
             target,
@@ -42,7 +42,7 @@ where
                 let mother = self.population.choose(&mut self.rng).unwrap();
                 let father = self.population.choose(&mut self.rng).unwrap();
 
-                let mut children = mother.breed(father.clone(), &mut self.rng);
+                let mut children = mother.breed(father, &mut self.rng);
 
                 children.mutate(self.mutation_rate, &mut self.rng);
 
@@ -66,7 +66,7 @@ where
         self.repopulate();
 
         // sort the population by the fitness
-        self.population.sort_by_key(|member| member.fitness(self.target.clone()));
+        self.population.sort_by_key(|member| member.fitness(&self.target));
 
         // the best memeber of the population is going to be the first member
         Some(self.population[0].clone())

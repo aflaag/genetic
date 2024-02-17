@@ -7,7 +7,7 @@ fn main() {
 
     let rng = rand::thread_rng();
 
-    let genetic: Genetic<[u8; 10], ThreadRng> = Genetic::new(target, 100, 0.05, rng);
+    let genetic: Genetic<_, ThreadRng> = Genetic::new(target, 100, 0.05, rng);
 
     let result = genetic
         .into_iter()

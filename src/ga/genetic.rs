@@ -28,7 +28,7 @@ where
             size,
             mutation_rate,
             rng,
-            _marker: PhantomData::default(),
+            _marker: PhantomData,
         }
     }
 }

@@ -11,9 +11,9 @@ pub trait Member: Clone + PartialEq {
 
     fn from_random(rng: &mut Self::Rng) -> Self;
 
-    fn fitness(&self, target: Self) -> Self::FitnessOutput;
+    fn fitness(&self, target: &Self) -> Self::FitnessOutput;
 
-    fn breed(&self, other: Self, rng: &mut Self::Rng) -> Self;
+    fn breed(&self, other: &Self, rng: &mut Self::Rng) -> Self;
 
     fn mutate(&mut self, mutation_rate: f32, rng: &mut Self::Rng);
 }
@@ -35,7 +35,7 @@ impl<const S: usize> Member for [u8; S] {
         bytes
     }
 
-    fn fitness(&self, target: Self) -> Self::FitnessOutput {
+    fn fitness(&self, target: &Self) -> Self::FitnessOutput {
         self
             .iter()
             .zip(target.iter())
@@ -43,12 +43,12 @@ impl<const S: usize> Member for [u8; S] {
             .sum()
     }
 
-    fn breed(&self, other: Self, rng: &mut Self::Rng) -> Self {
+    fn breed(&self, other: &Self, rng: &mut Self::Rng) -> Self {
         let mut child = [0; S];
         
         std::iter::zip(*self, other)
             .zip(child.iter_mut())
-            .for_each(|((m, d), c)| *c = if rng.gen() { d } else { m });
+            .for_each(|((m, d), c)| *c = if rng.gen() { *d } else { m });
 
         child
     }
@@ -56,6 +56,6 @@ impl<const S: usize> Member for [u8; S] {
     fn mutate(&mut self, mutation_rate: f32, rng: &mut Self::Rng) {
         self
             .iter_mut()
-            .for_each(|byte| if rng.gen::<f32>() < mutation_rate { *byte = rng.gen() })
+            .for_each(|byte| if rng.gen_range(0.0..=1.0) <= mutation_rate { *byte = rng.gen() })
     }
 }
